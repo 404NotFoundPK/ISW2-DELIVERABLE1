@@ -1,3 +1,6 @@
+
+package org.torvergata;
+
 import java.io.BufferedReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -21,11 +24,12 @@ import org.json.JSONObject;
 
 public class GetJiraIssues {
     public static void main(String[] args) throws Exception {
-		Logger logger = Logger.getLogger(GetJiraIssues.class.getName());
+		var logger = Logger.getLogger(GetJiraIssues.class.getName());
 
-		Map<String, String> releaseID;
-		List<String> releases = new ArrayList<String>();
-        String projName ="KAFKA";
+		List<String> releases = new ArrayList<>();
+		Map<String, String> releaseID = new HashMap<>();
+
+        var projName ="KAFKA";
 		
 		//Fills the arraylist with issues dates
 		//Ignores issues with missing dates
@@ -34,7 +38,6 @@ public class GetJiraIssues {
 		
 		JSONObject json = readJsonFromUrl(url);
 		var issues = json.getJSONArray("issues");
-		releaseID = new HashMap<String, String>();
 		for (i = 0; i < issues.length(); i++ ) {
 			var key = "";
 			if(issues.getJSONObject(i).has("key")) {
@@ -51,7 +54,7 @@ public class GetJiraIssues {
 		if (releases.size() < 6)
 			return;
 		String outname = projName + "-issues.csv";
-		try(FileWriter fileWriter = new FileWriter(outname)) {
+		try(var fileWriter = new FileWriter(outname)) {
 			//Name of CSV for output
 			fileWriter.append("Issue;Date");
 			fileWriter.append("\n");
@@ -66,8 +69,7 @@ public class GetJiraIssues {
 			fileWriter.flush();
 
 		} catch (Exception e) {
-			logger.log(Level.SEVERE, "Error in csv writer");
-			e.printStackTrace();
+			logger.log(Level.SEVERE, "Error in csv writer.");
 		}
 	}
 
