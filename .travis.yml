@@ -1,5 +1,11 @@
 language: java
-matrix:
-  - JOB="./gradlew build"
-
-script: "$JOB"
+jdk: 
+  - openjdk11
+  
+addons:
+  sonarcloud:
+    organization: 404notfoundpk
+    token: 858c414ed6987cb10c2ce63f58325fc28a5fcf32
+ 
+script:
+  - mvn clean verify -e org.jacoco:jacoco-maven-plugin:prepare-agent sonar:sonar -Dsonar.projectKey=404notfoundpk_ISW2-DELIVERABLE1
